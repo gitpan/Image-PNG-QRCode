@@ -32,7 +32,7 @@ sub send_qr_code
     my $w = $params{w};
     my $s;
     eval {
-	qrpng ($w, out => \$s);
+	qrpng (text => $w, out => \$s);
     };
     if ($@) {
 	print <<EOF;

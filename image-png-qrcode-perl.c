@@ -26,20 +26,37 @@ qrpng_internal (HV * options)
     unsigned text_length;
     qr_t qr = {0};
     qrpng_t qrpng = {0};
-    //    unsigned char v = 0;
-    unsigned char l = 1;
     SV ** sv_ptr;
     qrpng_status_t qrpng_status;
+
+    /* Get the text. This is assumed to exist. */
     
     HASH_FETCH_PV (options, text);
-    //    printf ("text = '%s', length = %d\n", text, text_length);
-    //if v is the version:
-    //initecc(qr, l, v);
 
     qr.input = text;
     qr.input_length = text_length;
 
-    initeccsize (& qr, l);
+    qr.level = 1;
+
+    sv_ptr = hv_fetch (options, "level", strlen ("level"), 0);
+    if (sv_ptr) {
+	qr.level = SvUV (* sv_ptr);
+    }
+    if (qr.level < 1 || qr.level > 4) {
+	croak ("Bad level %d; this is between 1 and 4", qr.level);
+    }
+
+    sv_ptr = hv_fetch (options, "version", strlen ("version"), 0);
+    if (sv_ptr) {
+	qr.version = SvUV (* sv_ptr);
+	if (qr.version < 1 || qr.version > 40) {
+	    croak ("Bad version %d; this is between 1 and 40", qr.version);
+	}
+	initecc (& qr);
+    }
+    else {
+	initeccsize (& qr);
+    }
     initframe(& qr);
 
     qrencode (& qr);
@@ -81,8 +98,14 @@ qrpng_internal (HV * options)
 	assert (si);
 	png_set_write_fn (qrpng.png, si, perl_png_scalar_write,
 			  0 /* No flush function */);
+
+	/* Write using our function. */
+
 	png_write_png (qrpng.png, qrpng.info,
 		       PNG_TRANSFORM_INVERT_MONO, NULL);
+
+	/* Put the data into %options as $options{png_data}. */
+
 	(void) hv_store (options, "png_data", strlen ("png_data"),
 			 si->png_image, 0);
 	free (si);

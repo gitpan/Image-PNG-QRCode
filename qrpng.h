@@ -9,7 +9,7 @@
 
 /* From 'qrpng.c': */
 
-#line 10 "qrpng.c"
+#line 11 "qrpng.c"
 typedef struct qrpng {
     unsigned int scale;
     unsigned int quietzone;
@@ -30,13 +30,13 @@ typedef enum qrpng_status {
 qrpng_status_t;
 #define QUIETZONE 4
 
-#line 45 "qrpng.c"
+#line 46 "qrpng.c"
 qrpng_status_t qrpng_make_png (qr_t * qr , qrpng_t * qrpng );
 
-#line 124 "qrpng.c"
+#line 130 "qrpng.c"
 qrpng_status_t qrpng_write (qrpng_t * qrpng );
 
-#line 144 "qrpng.c"
+#line 149 "qrpng.c"
 qrpng_status_t qrpng_free (qrpng_t * qrpng );
 
 #endif /* CFH_QRPNG_H */

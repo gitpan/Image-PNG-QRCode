@@ -13,12 +13,13 @@
 typedef struct qr {
     char * input;
     int input_length;
+    unsigned level;
+    unsigned version;
     unsigned char * strinbuf;
     unsigned char * qrframe;
     unsigned char *framebase;
     unsigned char *framask;
     unsigned char *rlens;
-    unsigned char version;
     unsigned char  WD;
     unsigned char WDB;
 
@@ -27,19 +28,19 @@ typedef struct qr {
 qr_t;
 #define QRBIT(f,x,y) ( ( qr->f[((x)>>3) + (y) * qr->WDB] >> (7-((x) & 7 ))) & 1 )
 
-#line 160 "qrencode.c"
+#line 161 "qrencode.c"
 void initframe (qr_t * qr );
 
-#line 269 "qrencode.c"
-unsigned initecc (qr_t * qr , unsigned char ecc , unsigned char vers );
+#line 270 "qrencode.c"
+unsigned initecc (qr_t * qr );
 
-#line 295 "qrencode.c"
-unsigned initeccsize (qr_t * qr , unsigned char ecc );
+#line 304 "qrencode.c"
+unsigned initeccsize (qr_t * qr );
 
-#line 763 "qrencode.c"
+#line 774 "qrencode.c"
 void qrencode (qr_t * qr );
 
-#line 796 "qrencode.c"
+#line 807 "qrencode.c"
 void qrfree (qr_t * qr );
 
 #endif /* CFH_QRENCODE_H */

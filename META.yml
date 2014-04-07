@@ -1,5 +1,5 @@
 ---
-abstract: 'make a PNG containing a QR code'
+abstract: 'make a PNG image containing a QR code from text'
 author:
   - 'Ben Bullock <bkb@cpan.org>'
 build_requires:
@@ -22,4 +22,4 @@ requires:
 resources:
   bugtracker: https://github.com/benkasminbullock/image-png-qrcode/issues
   repository: git://github.com/benkasminbullock/image-png-qrcode.git
-version: 0.00_02
+version: 0.00_03

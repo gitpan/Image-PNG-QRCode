@@ -33,13 +33,25 @@ qrpng (text => "monster mash", scale => 6, quiet => 10, out => $pngfile4);
 ok (-f $pngfile4);
 ok (-s $pngfile4 > 0);
 
+my $pngfile5 = "$FindBin::Bin/test5.png";
+qrpng (text => "monster mash", level => 4, out => $pngfile5);
+
+ok (-f $pngfile5);
+ok (-s $pngfile5 > 0);
+
+my $pngfile6 = "$FindBin::Bin/test6.png";
+qrpng (text => "monster mash", version => 40, out => $pngfile6);
+
+ok (-f $pngfile6);
+ok (-s $pngfile6 > 0);
+
 TODO: {
     local $TODO = 'not implemented yet';
 };
 
 # Remove the output files.
 
-for my $file ($pngfile, $pngfile2, $pngfile3, $pngfile4) {
+for my $file ($pngfile, $pngfile2, $pngfile3, $pngfile4, $pngfile5, $pngfile6) {
     if (-f $file) {
 	unlink $file;
     }

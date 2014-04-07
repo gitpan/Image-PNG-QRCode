@@ -10,12 +10,13 @@
 typedef struct qr {
     char * input;
     int input_length;
+    unsigned level;
+    unsigned version;
     unsigned char * strinbuf;
     unsigned char * qrframe;
     unsigned char *framebase;
     unsigned char *framask;
     unsigned char *rlens;
-    unsigned char version;
     unsigned char  WD;
     unsigned char WDB;
 
@@ -265,19 +266,25 @@ static const unsigned char eccblocks[] = {
   19, 6,118, 30,  18,31, 47, 28,  34,34, 24, 30,  20,61, 15, 30,  
 };
 
-unsigned initecc(qr_t * qr, unsigned char ecc, unsigned char vers)
+unsigned initecc(qr_t * qr)
 {
-    qr->version = vers;
-    qr->WD = 17 + 4 * vers;
+    assert (qr->version > 0 && qr->version <= 40);
+
+    qr->WD = 17 + 4 * qr->version;
     qr->WDB = (qr->WD + 7) / 8;
 
     unsigned fsz = qr->WD * qr->WDB;
-    if (fsz < 768)              // for ECC math buffers
+    if (fsz < 768) {
+	// for ECC math buffers
         fsz = 768;
-    qr->qrframe = malloc(fsz);
+    }
+    qr->qrframe = malloc (fsz);
+    assert (qr->qrframe);
 
-    ECCLEVEL = ecc;
-    unsigned eccindex = (ecc - 1) * 4 + (vers - 1) * 16;
+    assert (qr->level >= 1 && qr->level <= 4);
+    ECCLEVEL = qr->level;
+
+    unsigned eccindex = (qr->level - 1) * 4 + (qr->version - 1) * 16;
 
     neccblk1 = eccblocks[eccindex++];
     neccblk2 = eccblocks[eccindex++];
@@ -291,24 +298,28 @@ unsigned initecc(qr_t * qr, unsigned char ecc, unsigned char vers)
     return datablkw * (neccblk1 + neccblk2) + neccblk2 - 3;     //-2 if vers <= 9!
 }
 
-unsigned initeccsize (qr_t * qr, unsigned char ecc)
+/* Initialize using string length. */
+
+unsigned initeccsize (qr_t * qr)
 {
     unsigned eccindex;
     unsigned vers;
 
     assert (qr->input);
     assert (qr->input_length > 0);
+    assert (qr->level >= 1 && qr->level <= 4);
 
     for (vers = 1; vers < 40; vers++) {
-        eccindex = (ecc - 1) * 4 + (vers - 1) * 16;
+        eccindex = (qr->level - 1) * 4 + (vers - 1) * 16;
         neccblk1 = eccblocks[eccindex++];
         neccblk2 = eccblocks[eccindex++];
         datablkw = eccblocks[eccindex++];
         if (qr->input_length < datablkw * (neccblk1 + neccblk2) + neccblk2 - 3) {
+	    qr->version = vers;
             break;
 	}
     }
-    return initecc (qr, ecc, vers);
+    return initecc (qr);
 }
 
 //========================================================================
