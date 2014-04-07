@@ -5,12 +5,10 @@ inc/Devel/CheckLib.pm
 lib/Image/PNG/QRCode.pm
 lib/Image/PNG/QRCode.pod
 Makefile.PL
-makeitfile
 MANIFEST			This list of files
 MANIFEST.SKIP
 my-xs.h
 ppport.h
-qrcode.png
 QRCode.xs
 qrencode.c
 qrencode.h
@@ -19,6 +17,5 @@ qrpng.h
 README
 script/qrpng
 t/image-png-qrcode.t
-typemap
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)

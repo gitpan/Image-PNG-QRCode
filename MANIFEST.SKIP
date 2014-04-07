@@ -10,3 +10,5 @@ MYMETA..*
 ^Image-PNG-QRCode-[0-9\.]+\.tar\.gz$
 ^QRCode.(?:c|o|bs)$
 ^(qrpng|qrencode)\.o$
+.*\.png$
+^makeitfile$

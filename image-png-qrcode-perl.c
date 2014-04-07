@@ -77,7 +77,7 @@ qrpng_internal (HV * options)
 
 	scalar_as_image_t * si;
 
-	si = malloc (sizeof (scalar_as_image_t));
+	si = calloc (1, sizeof (scalar_as_image_t));
 	assert (si);
 	png_set_write_fn (qrpng.png, si, perl_png_scalar_write,
 			  0 /* No flush function */);
