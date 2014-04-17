@@ -17,5 +17,6 @@ qrpng.h
 README
 script/qrpng
 t/image-png-qrcode.t
+xt/distro.t
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)

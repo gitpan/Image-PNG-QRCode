@@ -22,4 +22,4 @@ requires:
 resources:
   bugtracker: https://github.com/benkasminbullock/image-png-qrcode/issues
   repository: git://github.com/benkasminbullock/image-png-qrcode.git
-version: 0.00_03
+version: '0.01'

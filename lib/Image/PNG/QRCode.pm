@@ -8,7 +8,7 @@ require Exporter;
 use warnings;
 use strict;
 use Carp;
-our $VERSION = '0.00_03';
+our $VERSION = '0.01';
 require XSLoader;
 XSLoader::load ('Image::PNG::QRCode', $VERSION);
 
@@ -46,6 +46,18 @@ sub qrpng
 	}
 	if ($options{scale} > 100) {
 	    croak "requested scale, $options{scale}, exceeds arbitrary maximum of 100";
+	}
+    }
+    if ($options{version}) {
+	if ($options{version} < 1 || $options{version} > 40 ||
+	    $options{version} != int ($options{version})) {
+	    croak "Bad version number $options{version}: use integer between one and forty";
+	}
+    }
+    if ($options{level}) {
+	if ($options{level} < 1 || $options{level} > 4 ||
+	    $options{level} != int ($options{level})) {
+	    croak "Bad level number $options{level}: use integer between one and four";
 	}
     }
     my $r = defined wantarray () && ! wantarray ();

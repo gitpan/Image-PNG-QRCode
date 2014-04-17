@@ -36,7 +36,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/benkasminbullock/image-png-qrcode/issues"
@@ -47,5 +47,5 @@
          "web" : "https://github.com/benkasminbullock/image-png-qrcode"
       }
    },
-   "version" : "0.00_03"
+   "version" : "0.01"
 }

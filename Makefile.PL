@@ -40,6 +40,6 @@ WriteMakefile (
     },
     MIN_PERL_VERSION => '5.006001',
     OBJECT => 'QRCode.o qrencode.o qrpng.o',
-    OPTIMIZE => '-Wall -g -O',
+    #    OPTIMIZE => '-Wall -g -O',
     EXE_FILES => ['script/qrpng',],
 );

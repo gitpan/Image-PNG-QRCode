@@ -1,6 +1,7 @@
 #!/home/ben/software/install/bin/perl
 use warnings;
 use strict;
+use lib '/home/protected/lib';
 use Image::PNG::QRCode 'qrpng';
 use URI::Escape;
 
@@ -11,6 +12,7 @@ if ($request) {
     for my $param (@params) {
 	my ($k, $v) = split /=/, $param;
 	if ($k && $v) {
+	    $v =~ s/\+/ /g;
 	    $params{$k} = uri_unescape ($v);
 	}
     }

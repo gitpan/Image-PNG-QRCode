@@ -40,7 +40,9 @@ Text to convert to a QR code.
 
 =item in
 
-C<in> specifies an input file of text to convert to a QR code.
+C<in> specifies an input file of text to convert to a QR code. If you
+specify both C<text> and C<in>, the module prints a warning message
+and uses the contents of C<in>, overwriting the value of C<text>.
 
 =item out
 
@@ -56,12 +58,17 @@ writes the PNG data into a scalar C<$s>.
 
 =item version
 
+    qrpng (in => 'in.txt', out => 'out.png', version => 40);
+
 Specify the "version" of the QR code. The "version" is like the size
 of the code. Maximum value is 40. If no version is specified, the
 program chooses one using the length of the text. If you choose a
-version which is too small for the input data, a fatal error occurs.
+version which is too small for the input data, a fatal error
+occurs. Usually it isn't necessary to set this parameter.
 
 =item level
+
+    qrpng (in => 'in.txt', out => 'out.png', level => 4);
 
 Specify the amount of error checking code (ECC) to use. The default is
 level one, which corresponds to 7% error tolerance. The level can go
@@ -70,12 +77,27 @@ one or greater than four cause a fatal error.
 
 =item quiet
 
-Specify the size of the "quiet zone". The default is 4.
+    qrpng (in => 'in.txt', out => 'out.png', quiet => 9);
+
+C<quiet> is a non-negative integer which specifies the size of the
+"quiet zone", the white area around the QR code, in units of
+"modules", the size of one black square of the QR code. The default is
+4 modules. The QR specification requires a minimum of a four-module
+quiet zone, but you could set this to zero if, for example, you are
+going to embed the image in a white background, so it's not an error
+to set this lower. There is an arbitrary upper limit of 100
+imposed. Note that changing this size makes little difference to the
+output PNG's size because it's just a white area which is compressed
+to take little room.
 
 =item scale
 
-Specify how many pixels one "module" (one block of the QR code)
-occupies. The default is 3. You can't use fractional values.
+    qrpng (in => 'in.txt', out => 'out.png', scale => 9);
+
+C<scale> is a positive integer which specifies how many pixels one
+"module" (one block of the QR code) occupies. The default is 3. You
+can't use fractional values. An arbitrary upper limit of 100 is
+imposed.
 
 =back
 
@@ -134,16 +156,27 @@ L<Text::QRCode> makes a text QR code. It's based on libqrencode.
 
 =item HTML::QRCode
 
-L<HTML::QRCode> is based on Text::QRCode.
+L<HTML::QRCode> is an HTML QR code system based on L<Text::QRCode>.
 
 =item Term::QRCode
 
-L<Term::QRCode> makes QR codes on terminal windows.
+L<Term::QRCode> makes QR codes on terminal windows. It's based on
+L<Text::QRCode>.
 
 =item  PostScript::Barcode::qrcode
 
 This is part of L<PostScript::Barcode>. It's actually PostScript
 rather than Perl.
+
+=item Image::QRCode::Effects
+
+L<Image::QRCode::Effects> is based on L<Imager::QRCode> and adds
+"effects commonly used on QRCodes to make them look interesting".
+
+=item GD::Barcode::QRcode
+
+Pure-Perl implementation of QR codes using the GD library for the
+graphical part. At the time of writing, the last update was in 2004.
 
 =back
 
@@ -178,7 +211,7 @@ Image::PNG::QRCode uses one-bit monochrome colour space.
 L<ZXing|https://github.com/zxing/zxing/> is a Java project which can
 generate QR codes. These are one-bit monochrome ones.
 
-=item 
+=item QrCode.net
 
 L<QrCode.net|http://qrcodenet.codeplex.com/> is a .Net version.
 
@@ -190,8 +223,9 @@ L<http://d-project.googlecode.com/svn/trunk/misc/qrcode/js/>
 
 L<http://code.google.com/p/jsqrencode/downloads/list>
 
-However, sending these JavaScript files over the internet results in
-much more bandwidth than sending the QR codes themselves.
+However, sending these large JavaScript files over the internet will
+use much more bandwidth than sending the QR codes themselves, for most
+usage cases.
 
 =back
 
@@ -206,7 +240,7 @@ L<Image::PNG::Libpng>. If you want to manipulate the output PNG file
 you'll need to read it in again and operate on it.
 
 The module isn't optimized for repeated uses, it builds up and tears
-down everyting.
+down everything for each image.
 
 The QR encoding is not checked for correctness. The QR code library
 comes from the "qrduino" project, but the contents have been worked on
@@ -215,6 +249,8 @@ the original thing leading to reading uninitialized memory.
 
 This encoder doesn't support the "shift-JIS" format. UTF-8 seems to
 pass through it OK. It doesn't use a BOM for the UTF-8.
+
+The QR codes have only been checked by using one Android smartphone.
 
 =head1 COPYRIGHT AND LICENCE
 
@@ -226,3 +262,4 @@ This Perl module is licensed under the Gnu General Public Licence
 version 3.
 
 =cut
+
