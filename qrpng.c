@@ -62,7 +62,7 @@ qrpng_make_png (qr_t * qr, qrpng_t * qrpng)
 
     qrpng->png = png_create_write_struct (PNG_LIBPNG_VER_STRING, 0, 0, 0);
     if (! qrpng->png) {
-	fprintf (stderr, "fopen failed\n");
+	fprintf (stderr, "png_create_write_struct failed\n");
 	exit (1);
     }
 #ifdef USESETJMP
@@ -133,7 +133,7 @@ qrpng_write (qrpng_t * qrpng)
 	return qrpng_bad_filename;
     }
 
-    f = fopen (qrpng->filename, "w");
+    f = fopen (qrpng->filename, "wb");
     if (! f) {
 	fprintf (stderr, "fopen failed\n");
 	exit (1);

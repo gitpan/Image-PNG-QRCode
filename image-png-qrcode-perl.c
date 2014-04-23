@@ -92,11 +92,9 @@ qrpng_internal (HV * options)
 	/* Write it as a scalar. The code is copied out of
 	   Image::PNG::Libpng, but we don't depend on that. */
 
-	scalar_as_image_t * si;
+	scalar_as_image_t si = {0};
 
-	si = calloc (1, sizeof (scalar_as_image_t));
-	assert (si);
-	png_set_write_fn (qrpng.png, si, perl_png_scalar_write,
+	png_set_write_fn (qrpng.png, & si, perl_png_scalar_write,
 			  0 /* No flush function */);
 
 	/* Write using our function. */
@@ -107,8 +105,7 @@ qrpng_internal (HV * options)
 	/* Put the data into %options as $options{png_data}. */
 
 	(void) hv_store (options, "png_data", strlen ("png_data"),
-			 si->png_image, 0);
-	free (si);
+			 si.png_image, 0);
     }
     else {
 	char * out;
