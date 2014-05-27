@@ -32,13 +32,19 @@ This makes a PNG file F<file.png> from the contents of F<file.txt>.
 
 =head3 qrpng options
 
+The function takes the following options.
+
 =over
 
 =item text
 
+    qrpng (text => 'this is my text');
+
 Text to convert to a QR code.
 
 =item in
+
+    qrpng (in => 'file.txt');
 
 C<in> specifies an input file of text to convert to a QR code. If you
 specify both C<text> and C<in>, the module prints a warning message
@@ -60,11 +66,12 @@ writes the PNG data into a scalar C<$s>.
 
     qrpng (in => 'in.txt', out => 'out.png', version => 40);
 
-Specify the "version" of the QR code. The "version" is like the size
-of the code. Maximum value is 40. If no version is specified, the
-program chooses one using the length of the text. If you choose a
-version which is too small for the input data, a fatal error
-occurs. Usually it isn't necessary to set this parameter.
+C<version> specifies the "version" of the QR code. The "version" is
+the "size" of the barcode, which controls the amount of information it
+can contain. The maximum value of "version" is 40. If no version is
+specified, the program chooses one using the length of the text. If
+you choose a version which is too small for the input data, a fatal
+error occurs. Usually it isn't necessary to set this parameter.
 
 =item level
 
@@ -102,6 +109,8 @@ imposed.
 =back
 
 =head1 DIAGNOSTICS
+
+This section is under construction.
 
 =over
 

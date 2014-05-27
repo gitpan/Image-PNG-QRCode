@@ -45,6 +45,10 @@ qrpng (text => "monster mash", version => 40, out => $pngfile6);
 ok (-f $pngfile6);
 ok (-s $pngfile6 > 0);
 
+my $png = qrpng (text => 'buggles');
+ok ($png, "Created a PNG using return value");
+like ($png, qr/^.PNG/, "contains a PNG image");
+
 TODO: {
     local $TODO = 'not implemented yet';
 };
